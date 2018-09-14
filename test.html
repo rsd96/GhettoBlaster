@@ -1,0 +1,100 @@
+<html class="gr__wizzledonker_com">
+
+<head>
+	<title>Ghetto Metamorphic Tester - Run Test</title>
+	
+	<link href="https://fonts.googleapis.com/css?family=Nunito:300,400,700" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ajusa/lit@latest/dist/lit.css" />
+	
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/pizzicato/0.6.3/Pizzicato.min.js"></script>
+	<script src="js/main.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+	
+<body>
+
+	<div class='c'>
+		<div class='row card'>
+			<div class='col 1 imgContainer'><img id="img_title" src="images/logo_ghetto_blaster_64.png"></div>
+			<div class='col'><h1>Ghetto Blaster</h1></div>
+			<div class='col'><a href="#">About</a></div>
+			<div class='col'><a href="#">Test</a></div>
+			<div class='col'><a href="#">Team</a></div>
+		</div>
+
+		<div class='row'>
+			<div class='col'>
+				<h2>Testing Page</h2>
+				<p>This page allows the user to perform various tests on their browser. It will allow them to discern any sound throughput issues.</p>
+				<p>Sound issues can happen at any stage in the audio pipeline, from the creation of the sound in the library to the individual audio jack that is
+				responsible for sending the audio to the speakers or headphones. This test will first try to determine any discrepancies in audio representation in different
+				browsers and media players.</p>
+				<button class='btn' id='beginBtn' onclick='begin()'>Begin Test</button>
+				<div id='testArea'>
+				</div>
+			</div>
+		</div>
+
+		<footer class='row'>
+			<div class='col 1'><img id="img_footer" src="images/logo_ghetto_blaster_64.png"></div>
+			<div class='col'>Copyright &copy; 2017 Ghetto Blaster</div>
+		</footer>
+		
+		<script>
+		
+		var cutoffHigh = 0;
+		var cutoffLow = 0;
+		
+		var interval;
+		
+		var sineWave = new Pizzicato.Sound({ 
+			source: 'wave', 
+			options: {
+				frequency: 10000
+			}
+		});
+		
+		function begin() {
+			document.getElementById('beginBtn').style.display = 'none';
+			document.getElementById('testArea').innerHTML = "<h3>Test 1</h3><p>Tests the high frequency cutoff of audio hardware. Press the button when you can't hear the tone. NOTE: Will be different between people, perform test yourself.</p><button class='btn' onclick='stopSoundA()'>Stop</button><p id='Freq'></p>";
+			sineWave.play();
+			interval = setInterval(increaseFrequency, 100);
+		}
+		
+		function increaseFrequency() {
+			sineWave.frequency += 25;
+			document.getElementById('Freq').innerHTML = sineWave.frequency;
+		}
+		
+		function decreaseFrequency() {
+			sineWave.frequency -= 10;
+			document.getElementById('Freq').innerHTML = sineWave.frequency;
+		}
+		
+		function stopSoundA() {
+			clearInterval(interval);
+			sineWave.stop();
+			cutoffHigh = sineWave.frequency;
+			startSoundB();
+		}
+		
+		function startSoundB() {
+			document.getElementById('testArea').innerHTML = "<h3>Test 2</h3><p>Tests the low frequency cutoff of audio hardware. Press the button when you can't hear the tone.</p><button class='btn' onclick='stopSoundB()'>Stop</button><p id='Freq'></p>";
+			sineWave.frequency = 5000;
+			sineWave.play();
+			interval = setInterval(decreaseFrequency, 100);
+		}
+		
+		function stopSoundB() {
+			clearInterval(interval);
+			sineWave.stop();
+			cutoffLow = sineWave.frequency;
+			document.getElementById('testArea').innerHTML = "<h3>Results for " + detectBrowser() + "</h3><p>Here are your results</p><table><tr><td>High Cutoff</td><td>" + cutoffHigh + "</td></tr><tr><td>Low Cutoff</td><td>" + cutoffLow + "</td></tr><table>";
+		}
+                
+		</script>
+	</div>
+</body>
+
+</html>
