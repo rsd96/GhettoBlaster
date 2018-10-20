@@ -1,0 +1,23 @@
+<%- include('header'); -%>
+<div class='row'>
+	<div class='col'>
+		<h2>Testing Page</h2>
+		<p>This page allows the user to perform various tests on their browser. It will allow them to discern any sound throughput issues.</p>
+		<p>Sound issues can happen at any stage in the audio pipeline, from the creation of the sound in the library to the individual audio jack that is
+		responsible for sending the audio to the speakers or headphones. This test will first try to determine any discrepancies in audio representation in different
+		browsers and media players.</p>
+		<p>On completion of the test, the results will be logged to the database and compared with the average for your browser.</p>
+
+		<h2>Pitch Variance Test</h2>
+		<p>This test is responsible for logging the pitch limits of audio hardware, whether that be on the listening hardware or in the device.</p>
+		<button class='btn' id='beginBtn' onclick='begin()'>Begin Test</button>
+		<div id='testArea'>
+		</div>
+
+
+	</div>
+</div>
+
+<script src="js/main.js"></script>
+<script src="js/test.js"></script>
+<%- include('footer'); -%>
