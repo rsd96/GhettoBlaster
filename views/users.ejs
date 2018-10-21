@@ -1,11 +1,12 @@
-<h1>Rendering of table data</h1>
-<table>
+<div class='col 6'>
+<h3>Average result per browser</h3>
+<table class='w-100'>
   <% for (var i = 0; i < rowData.length; i++) { %>
   <tr>
-    <td><%= rowData[i].id %></td>
     <td><%= rowData[i].browser %></td>
-    <td><%= rowData[i].low %></td>
-    <td><%= rowData[i].high %></td>
+    <td><%= rowData[i].lowAvg %></td>
+    <td><%= rowData[i].highAvg %></td>
   </tr>
   <% }; %>
 </table>
+</div>

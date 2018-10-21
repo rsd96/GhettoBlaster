@@ -27,7 +27,7 @@ router.get('/', function(req, res, next) {
       db.run("INSERT INTO pitchTest(browser, low, high) VALUES(?, ?, ?)", browser, low, high);
 
       //Run a select query
-      let sql = 'SELECT * FROM pitchTest';
+      let sql = 'SELECT browser, AVG(low) as lowAvg, AVG(high) as highAvg FROM pitchTest GROUP BY browser;';
 
       db.all(sql, [], (err, rows) => {
         if (err) {

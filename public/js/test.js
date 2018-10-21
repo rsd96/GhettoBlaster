@@ -65,7 +65,7 @@ function stopSoundB() {
 	clearInterval(interval);
 	sineWave.stop();
 	cutoffLow = sineWave.frequency;
-	document.getElementById('testArea').innerHTML = "<h3>Results for " + detectBrowser() + "</h3><p>Here are your results</p><table><tr><td>High Cutoff</td><td>" + cutoffHigh + "</td></tr><tr><td>Low Cutoff</td><td>" + cutoffLow + "</td></tr><table>";
+	document.getElementById('testArea').innerHTML = "<div class='col 6'><h3>Results for " + detectBrowser() + "</h3><p>Here are your results</p><table class='w-100'><tr><td>High Cutoff</td><td>" + cutoffHigh + "</td></tr><tr><td>Low Cutoff</td><td>" + cutoffLow + "</td></tr></table></div>";
 
 	//Log the result to the database
 	$.get("/users", {browser:detectBrowser(), low:cutoffLow, high : cutoffHigh},
