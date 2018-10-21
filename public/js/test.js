@@ -66,4 +66,11 @@ function stopSoundB() {
 	sineWave.stop();
 	cutoffLow = sineWave.frequency;
 	document.getElementById('testArea').innerHTML = "<h3>Results for " + detectBrowser() + "</h3><p>Here are your results</p><table><tr><td>High Cutoff</td><td>" + cutoffHigh + "</td></tr><tr><td>Low Cutoff</td><td>" + cutoffLow + "</td></tr><table>";
+
+	//Log the result to the database
+	$.get("/users", {browser:detectBrowser(), low:cutoffLow, high : cutoffHigh},
+
+	function(data) {
+		document.getElementById('testArea').innerHTML += data;
+	}); //The get request is sent to the server
 }

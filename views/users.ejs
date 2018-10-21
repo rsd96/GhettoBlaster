@@ -1,0 +1,11 @@
+<h1>Rendering of table data</h1>
+<table>
+  <% for (var i = 0; i < rowData.length; i++) { %>
+  <tr>
+    <td><%= rowData[i].id %></td>
+    <td><%= rowData[i].browser %></td>
+    <td><%= rowData[i].low %></td>
+    <td><%= rowData[i].high %></td>
+  </tr>
+  <% }; %>
+</table>
