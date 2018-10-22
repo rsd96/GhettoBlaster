@@ -85,7 +85,10 @@ function beginChain() {
 	<p>The test runs from 100Hz-3000Hz. Additional test cases are generated every time the button below is pressed.</p>\
 	<button class='btn' onclick='changeFreq()'>Generate new frequency range</button><span id='freqRange'>" + startFreq + "Hz - " + endFreq + "Hz</span><br />\
 	<button class='btn' onclick='playLowpassFirst()'>Play with lowpass first</button>\
-	<button class='btn' onclick='playHighpassFirst()'>Play with highpass first</button>";
+	<button class='btn' onclick='playHighpassFirst()'>Play with highpass first</button>\
+	<p>In addition, we can test whether additional filters are affected by filter order.</p>\
+	<button class='btn' onclick='addFlanger()'>Add Flanger</button>\
+	<button class='btn' onclick='removeFlanger()'>Remove Flanger</button>";
 
 }
 
@@ -108,6 +111,30 @@ var highPassFilter = new Pizzicato.Effects.HighPassFilter({
 });
 
 var generatorFreq = 0;
+
+var flanger = new Pizzicato.Effects.Flanger({
+    time: 0.45,
+    speed: 0.2,
+    depth: 0.1,
+    feedback: 0.1,
+    mix: 0.5
+});
+
+var flangerAdded = false;
+
+function addFlanger() {
+	if (!flangerAdded) {
+		flangerAdded = true;
+		generatorSound.addEffect(flanger);
+	}
+}
+
+function removeFlanger() {
+	if (flangerAdded) {
+		flangerAdded = false;
+		generatorSound.removeEffect(flanger);
+	}
+}
 
 function increaseGeneratorFrequency() {
 	generatorSound.frequency += 50;
