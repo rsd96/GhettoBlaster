@@ -81,7 +81,7 @@ function beginChain() {
 
 function beginInversion() {
 	//Invert the audio wave that was uploaded
-	document.getElementById('testAreaInversion').innerHTML = "<p>If your audio output chain is working right, you should hear nothing in the second button below.</p><button class='btn' onclick='playSound()'>Play</button><button class='btn' onclick='playInvertedSound()'>Play Inverted</button>";
+	document.getElementById('testAreaInversion').innerHTML = "<p>If your audio output chain is working right, you should hear nothing but static in the second button below.</p><button class='btn' onclick='playSound()'>Play</button><button class='btn' onclick='playInvertedSound()'>Play Inverted</button>";
 }
 
 var soundPlay = 0;
@@ -107,7 +107,7 @@ scriptNode.onaudioprocess = function(audioProcessingEvent) {
     // Loop through the samples
     for (var sample = 0; sample < inputBuffer.length; sample++) {
       // make output equal to the negation of the input
-      outputData[sample] = -inputData[sample];
+      outputData[sample] = -inputData[sample] + inputData[sample];
 
       // add noise to each output sample
       outputData[sample] += ((Math.random() * 2) - 1) * 0.1;
@@ -123,14 +123,15 @@ function playSound() {
 
 function playInvertedSound() {
 	//Basic sound inversion filter
-	soundPlay.stop();
+	soundPlay = new Pizzicato.Sound('./audio/tremolo-guitar.mp3', function() {
+		soundPlay.getSourceNode().connect(scriptNode);
+		scriptNode.connect(context.destination);
+		soundPlay.play();
 
-	soundPlay.getSourceNode().connect(scriptNode);
-	scriptNode.connect(context.destination);
-	soundPlay.play();
+		soundPlay.on('end', function() {
+			scriptNode.disconnect(context.destination);
+			soundPlay.getSourceNode().disconnect(scriptNode);
+		});
 
-	sound.on('end', function() {
-		soundPlay.getSourceNode().disconnect(scriptNode);
-		scriptNode.disconnect(context.destination);
 	});
 }
