@@ -4,8 +4,8 @@
   <% for (var i = 0; i < rowData.length; i++) { %>
   <tr>
     <td><%= rowData[i].browser %></td>
-    <td><%= rowData[i].lowAvg %></td>
-    <td><%= rowData[i].highAvg %></td>
+    <td><%= Math.round(rowData[i].lowAvg) %></td>
+    <td><%= Math.round(rowData[i].highAvg) %></td>
   </tr>
   <% }; %>
 </table>
