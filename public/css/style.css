@@ -11,3 +11,30 @@
 #img_footer {
 	top: 25px;
 }
+
+#sliderDiv {
+	width: 100%;
+}
+
+#sliderValue {
+	appearance: none;
+	width: 100%;
+	height: 30px;
+	background: #F84572;
+	outline: none;
+}
+
+#sliderValue::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	appearance: none;
+	width: 30px;
+	height: 30px;
+	background: #9F40F4;
+}
+
+#sliderValue::-moz-range-thumb {
+	width: 30px;
+	height: 30px;
+	background: #9F40F4;
+}
+
