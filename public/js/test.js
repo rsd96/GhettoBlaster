@@ -14,9 +14,20 @@ var sineWave = new Pizzicato.Sound({
 
 function begin() {
 	document.getElementById('beginBtn').disabled = true;	// disable the begin button
-	document.getElementById('testArea').innerHTML = "<h3>Test 1</h3><p>Tests the high frequency cutoff of audio hardware. Press the button when you can't hear the tone. NOTE: Will be different between people, perform test yourself.</p><button class='btn' onclick='stopSoundA()'>Stop</button><p id='Help'>240Hz/Sec</p><p id='Freq'></p>";
+	document.getElementById('testArea').innerHTML = "<h3>Test 1A</h3><p>Tests the high frequency cutoff of audio hardware. Move the slider to the right and press the button when you can't hear the tone. NOTE: Will be different between people, perform test yourself.</p><div id='sliderDiv'><input type='range' min='13000' max='20000' value='13000' id='sliderValue'></div><button class='btn' onclick='stopSoundA()'>Stop</button><p id='Freq'></p>";
+	getSlider();
 	sineWave.play();
-	interval = setInterval(increaseFrequency, 100);
+}
+
+function getSlider(){
+	var slider = document.getElementById('sliderValue');
+	var output = document.getElementById('Freq');
+	output.innerHTML = slider.value + "Hz";
+	
+	slider.oninput = function() {
+		output.innerHTML = this.value + "Hz";
+		sineWave.frequency = this.value;
+	}
 }
 
 function increaseFrequency() {
@@ -30,39 +41,18 @@ function decreaseFrequency() {
 }
 
 function stopSoundA() {
-	if (counter < 4) {
-		accuracy = accuracy/2;
-		sineWave.frequency -= 200;
-		document.getElementById('Help').innerHTML = (accuracy*10) + "Hz/Sec";
-		counter++;
-		return;
-	}
-	counter = 0;
-	accuracy = 24;
-	clearInterval(interval);
 	sineWave.stop();
 	cutoffHigh = sineWave.frequency;
 	startSoundB();
 }
 
 function startSoundB() {
-	document.getElementById('testArea').innerHTML = "<h3>Test 2</h3><p>Tests the low frequency cutoff of audio hardware. Press the button when you can't hear the tone.</p><button class='btn' onclick='stopSoundB()'>Stop</button><p id='Help'>240Hz/Sec</p><p id='Freq'></p>";
-	sineWave.frequency = 5000;
+	document.getElementById('testArea').innerHTML = "<h3>Test 1B</h3><p>Tests the low frequency cutoff of audio hardware. Move the slider to the left and press the button when you can't hear the tone. NOTE: Will be different between people, perform test yourself.</p><div id='sliderDiv'><input type='range' min='1' max='150' value='150' id='sliderValue'></div><button class='btn' onclick='stopSoundB()'>Stop</button><p id='Freq'></p>";	sineWave.frequency = 5000;
+	getSlider();
 	sineWave.play();
-	interval = setInterval(decreaseFrequency, 100);
 }
 
 function stopSoundB() {
-	if (counter < 4) {
-		accuracy = accuracy/2;
-		sineWave.frequency += 200;
-		document.getElementById('Help').innerHTML = (accuracy*10) + "Hz/Sec";
-		counter++;
-		return;
-	}
-	counter = 0;
-	accuracy = 24;
-	clearInterval(interval);
 	sineWave.stop();
 	cutoffLow = sineWave.frequency;
 	document.getElementById('testArea').innerHTML = "<div class='col 6'><h3>Results for " + detectBrowser() + "</h3><p>Here are your results</p><table class='w-100'><tr><td>High Cutoff</td><td>" + cutoffHigh + "</td></tr><tr><td>Low Cutoff</td><td>" + cutoffLow + "</td></tr></table></div>";
