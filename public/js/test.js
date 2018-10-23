@@ -23,7 +23,7 @@ function getSlider(){
 	var slider = document.getElementById('sliderValue');
 	var output = document.getElementById('Freq');
 	output.innerHTML = slider.value + "Hz";
-	
+
 	slider.oninput = function() {
 		output.innerHTML = this.value + "Hz";
 		sineWave.frequency = this.value;
@@ -63,7 +63,7 @@ function stopSoundB() {
 	function(data) {
 		document.getElementById('testArea').innerHTML += data;
 	}); //The get request is sent to the server
-	
+
 	document.getElementById('beginBtn').disabled = false;	// re-enable the begin button
 }
 
@@ -189,7 +189,7 @@ function changeFreq() {
 function beginInversion() {
 	//Invert the audio wave that was uploaded
 	document.getElementById('beginBtn2').style.display = 'none';
-	document.getElementById('testAreaInversion').innerHTML = "<p>If your audio output chain is working right, you should hear nothing but static in the second button below.</p><button class='btn' onclick='playSound()'>Play</button><button class='btn' onclick='playInvertedSound()'>Play Inverted</button>";
+	document.getElementById('testAreaInversion').innerHTML = "<p>If your audio output chain is working right, you should hear nothing but static in the second button below.</p><button class='btn' onclick='playSound()'>Play</button><button class='btn' onClick='playInvertedSound()'>Play Inverted</button>";
 }
 
 var soundPlay = 0;
@@ -234,11 +234,12 @@ function playInvertedSound() {
 	soundPlay = new Pizzicato.Sound('./audio/tremolo-guitar.mp3', function() {
 		soundPlay.getSourceNode().connect(scriptNode);
 		scriptNode.connect(context.destination);
-		soundPlay.play();
+		soundPlay.getSourceNode().start();
 
 		soundPlay.on('end', function() {
 			scriptNode.disconnect(context.destination);
 			soundPlay.getSourceNode().disconnect(scriptNode);
+			soundPlay.getSourceNode().stop();
 		});
 
 	});
